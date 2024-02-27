@@ -1,13 +1,14 @@
 use bevy::prelude::*;
 
-use crate::movement::Velocity;
+use crate::{movement::Velocity, Player};
 
-const STARTING_VELOCITY: Vec3 = Vec3::new(0.0, 0.0, 0.1);
+const STARTING_VELOCITY: Vec3 = Vec3::new(0.0, 0.0, -1.0);
 
 #[derive(Bundle)]
 struct CuboidBundle {
     velocity: Velocity,
     model: PbrBundle,
+    player: Player,
 }
 
 pub struct CuboidPlugin;
@@ -33,5 +34,6 @@ fn spawn_cuboid(
             transform: Transform::from_xyz(0.0, 0.5, 0.0),
             ..default()
         },
+        player: Player,
     });
 }

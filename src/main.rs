@@ -5,6 +5,9 @@ use bevy::prelude::*;
 use cuboid::CuboidPlugin;
 use movement::MovementPlugin;
 
+#[derive(Component)]
+struct Player;
+
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
