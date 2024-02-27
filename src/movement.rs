@@ -34,5 +34,8 @@ fn update_position(
     if keyboard_input.pressed(KeyCode::ArrowDown) {
         velocity = Vec3::NEG_Z;
     }
+    if velocity.length() > 0.0 {
+        velocity = velocity.normalize();
+    }
     cuboid_tranform.translation += velocity * time.delta_seconds();
 }
