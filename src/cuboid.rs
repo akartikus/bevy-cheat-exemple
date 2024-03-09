@@ -29,7 +29,7 @@ fn spawn_cuboid(
             value: STARTING_VELOCITY,
         },
         model: PbrBundle {
-            mesh: meshes.add(Cuboid::new(1.0, 1.0, 1.0)),
+            mesh: meshes.add(Cuboid::new(1.0, 1.0, 1.5)),
             material: materials.add(Color::rgb_u8(124, 144, 255)),
             transform: Transform::from_xyz(0.0, 0.5, 0.0),
             ..default()

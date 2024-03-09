@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, utils::info};
 
 use crate::Player;
 
@@ -20,7 +20,7 @@ fn update_position(
     mut query: Query<&mut Transform, With<Player>>,
     time: Res<Time>,
 ) {
-    let mut cuboid_tranform = query.single_mut();
+    let mut cuboid_transform = query.single_mut();
     let mut velocity = Vec3::ZERO;
     if keyboard_input.pressed(KeyCode::ArrowLeft) {
         velocity = Vec3::X;
@@ -37,5 +37,9 @@ fn update_position(
     if velocity.length() > 0.0 {
         velocity = velocity.normalize();
     }
-    cuboid_tranform.translation += velocity * time.delta_seconds();
+    if velocity.length_squared() > 0.0 {
+        // TODO make look to smooth, use rotation?
+        cuboid_transform.look_to(velocity, Vec3::Y);
+    }
+    cuboid_transform.translation += velocity * time.delta_seconds();
 }
