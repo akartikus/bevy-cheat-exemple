@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::Player;
 
-const CAMERA_DISTANCE: Vec3 = Vec3::new(0.0, 4.5, -9.0);
+const CAMERA_DISTANCE: Vec3 = Vec3::new(0.0, 4.5, 9.0);
 pub struct CameraPlugin;
 
 #[derive(Component)]
