@@ -1,5 +1,5 @@
-use bevy::{prelude::*, utils::info};
-use bevy_xpbd_3d::components::LinearVelocity;
+use bevy::{input::keyboard, log::tracing_subscriber::fmt::time, prelude::*, utils::info};
+use bevy_xpbd_3d::{components::LinearVelocity, plugins::spatial_query::ShapeHits};
 
 use crate::Player;
 
@@ -47,9 +47,10 @@ impl Plugin for MovementPlugin {
 
 fn move_player(
     keyboard_input: Res<ButtonInput<KeyCode>>,
-    mut players: Query<(&mut LinearVelocity, &mut Transform), With<Player>>,
+    mut players: Query<(&mut LinearVelocity, &mut Transform, &ShapeHits), With<Player>>,
+    time: Res<Time>,
 ) {
-    for (mut linear_velocity, mut cuboid_transform) in &mut players {
+    for (mut linear_velocity, mut cuboid_transform, ground_hits) in &mut players {
         let mut velocity = Vec3::ZERO;
         if keyboard_input.pressed(KeyCode::ArrowUp) {
             // linear_velocity.z -= 12;
@@ -70,13 +71,17 @@ fn move_player(
         if velocity.length() > 0.0 {
             velocity = velocity.normalize();
         }
+        linear_velocity.x = velocity.x * 150.0 * time.delta_seconds();
+        linear_velocity.z = velocity.z * 150.0 * time.delta_seconds();
+
+        if keyboard_input.pressed(KeyCode::Space) && !ground_hits.is_empty() {
+            linear_velocity.y += 15.0 * time.delta_seconds();
+            // Slow player down on the x and y axes
+            linear_velocity.x *= 0.8;
+            linear_velocity.z *= 0.8;
+        }
         if velocity.length_squared() > 0.0 {
             cuboid_transform.look_to(velocity, Vec3::Y);
         }
-        linear_velocity.x = velocity.x * 1.2;
-        linear_velocity.z = velocity.z * 1.2;
-        // Slow player down on the x and y axes
-        linear_velocity.x *= 0.8;
-        linear_velocity.z *= 0.8;
     }
 }
