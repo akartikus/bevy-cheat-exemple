@@ -1,7 +1,7 @@
 use crate::{movement::Velocity, Player};
 use bevy::prelude::*;
 use bevy_xpbd_3d::{
-    components::RigidBody,
+    components::{LockedAxes, RigidBody},
     math::{Quaternion, Vector},
     plugins::{collision::Collider, spatial_query::ShapeCaster},
 };
@@ -16,6 +16,7 @@ struct CuboidBundle {
     collider: Collider,
     shape_caster: ShapeCaster,
     player: Player,
+    locked_axes: LockedAxes,
 }
 
 pub struct CuboidPlugin;
@@ -52,6 +53,7 @@ fn spawn_cuboid(
         .with_max_hits(1),
         rigid_body: RigidBody::Dynamic,
         collider: Collider::cuboid(1.0, 1.0, 1.5),
+        locked_axes: LockedAxes::new().lock_rotation_z(),
         player: Player,
     });
 }

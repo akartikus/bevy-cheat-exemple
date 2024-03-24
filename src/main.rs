@@ -1,6 +1,7 @@
 mod camera;
 mod cuboid;
 mod movement;
+mod npc;
 
 use bevy::prelude::*;
 use bevy_xpbd_3d::{
@@ -10,6 +11,7 @@ use bevy_xpbd_3d::{
 use camera::CameraPlugin;
 use cuboid::CuboidPlugin;
 use movement::MovementPlugin;
+use npc::NpcPlugin;
 
 #[derive(Component)]
 struct Player;
@@ -20,6 +22,7 @@ fn main() {
         .add_plugins(CuboidPlugin)
         .add_plugins(MovementPlugin)
         .add_plugins(CameraPlugin)
+        .add_plugins(NpcPlugin)
         .add_plugins(PhysicsPlugins::default())
         .add_systems(Startup, setup)
         .run();
